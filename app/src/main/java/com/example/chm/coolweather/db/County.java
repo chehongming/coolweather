@@ -6,16 +6,16 @@ import org.litepal.crud.DataSupport;
  * Created by chm on 18-9-4.
  */
 
-public class County extends DataSupport {
-    private int id;
+public class County extends DataSupport{
     private String countyName;
-    private String weatherId;
-    private int cityId;
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
+    private String cityName;
+    private String cid;
+    private String parentCity;
+    private String adminArea;
+    private String countryName;
+    public String getCid(){return cid;}
+    public void setCid(String cid) {
+        this.cid = cid;
     }
     public String getCountyName() {
         return countyName;
@@ -23,16 +23,16 @@ public class County extends DataSupport {
     public void setCountyName(String countyName) {
         this.countyName = countyName;
     }
-    public String getWeatherId() {
-        return weatherId;
+    public String getCityName() {
+        return cityName;
     }
-    public void setWeatherId(String weatherId) {
-        this.weatherId = weatherId;
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
-    public int getCityId() {
-        return cityId;
-    }
-    public void setCityId(int cityId) {
-        this.cityId = cityId;
-    }
+    //public String getParentCity() {return parentCity;}
+    //public void setParentCity(String parentCity){this.parentCity=parentCity;}
+    public String getAdminArea(){return adminArea;}
+    public void setAdminArea(String adminArea){this.adminArea=adminArea;}
+    public String getCountryName(){return countryName;}
+    public void setCountryName(String countryName){this.countryName=countryName;}
 }
