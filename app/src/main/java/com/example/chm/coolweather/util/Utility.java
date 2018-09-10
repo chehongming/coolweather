@@ -28,9 +28,12 @@ public class Utility {
                 county1.setCityName(county.getString("parent_city"));
                 county1.setCountyName(county.getString("location"));
                 county1.setCountryName(county.getString("cnty"));
+                county1.save();
+                return true;
             }catch(Exception e){
                 e.printStackTrace();
             }
         }
+        return false;
     }
 }
