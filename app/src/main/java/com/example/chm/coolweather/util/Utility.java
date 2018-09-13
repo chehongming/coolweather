@@ -21,14 +21,16 @@ public class Utility {
                 JSONArray basic=j.getJSONArray("basic");
                 String status=basic.getString(1);
                 if(status!="ok") return false;
-                JSONObject county=basic.getJSONObject(0);
-                County county1=new County();
-                county1.setAdminArea(county.getString("admin_area"));
-                county1.setCid(county.getString("cid"));
-                county1.setCityName(county.getString("parent_city"));
-                county1.setCountyName(county.getString("location"));
-                county1.setCountryName(county.getString("cnty"));
-                county1.save();
+                for(int i=0;i<basic.length();i++) {
+                    JSONObject county = basic.getJSONObject(i);
+                    County county1 = new County();
+                    county1.setAdminArea(county.getString("admin_area"));
+                    county1.setCid(county.getString("cid"));
+                    county1.setCityName(county.getString("parent_city"));
+                    county1.setCountyName(county.getString("location"));
+                    county1.setCountryName(county.getString("cnty"));
+                    county1.save();
+                }
                 return true;
             }catch(Exception e){
                 e.printStackTrace();
