@@ -64,7 +64,15 @@ public class ChooseAreaFragment extends Fragment {
               countyList= DataSupport.where("countyName LIKE ?","%"+inputText+"%").find(County.class);
               if(countyList.size()>0){
                   dataList.clear();
-
+                  for(County county:countyList){
+                      String s=county.getCountryName()+','+county.getAdminArea()+','+county.getCid()+','+county.getCountyName();
+                      dataList.add(s);
+                  }
+                  adapter.notifyDataSetChanged();
+                  listView.setSelection(0);
+              }
+              else{
+                  String address="";
               }
             }
         });
