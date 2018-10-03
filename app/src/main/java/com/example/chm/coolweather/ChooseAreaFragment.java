@@ -13,11 +13,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.chm.coolweather.db.County;
+import com.example.chm.coolweather.util.HttpUtil;
+import com.example.chm.coolweather.util.Utility;
 
 import org.litepal.crud.DataSupport;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,21 +67,43 @@ public class ChooseAreaFragment extends Fragment {
         search_Button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-              String inputText=search_Text.getText().toString();
-              countyList= DataSupport.where("countyName LIKE ?","%"+inputText+"%").find(County.class);
-              if(countyList.size()>0){
-                  dataList.clear();
-                  for(County county:countyList){
-                      String s=county.getCountryName()+','+county.getAdminArea()+','+county.getCid()+','+county.getCountyName();
-                      dataList.add(s);
-                  }
-                  adapter.notifyDataSetChanged();
-                  listView.setSelection(0);
-              }
-              else{
-                  String address="";
-              }
+              queryCounty();
             }
         });
+    }
+    public void queryFromServer(String address){
+        HttpUtil.sendOkHttpRequest(address, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                   String responseText=response.body().toString();
+                   boolean  result=false;
+                   result= Utility.handleResponse(responseText);
+                   if(result){
+                       queryCounty();
+                   }
+            }
+        });
+    }
+    public void queryCounty(){
+        String inputText=search_Text.getText().toString();
+        countyList= DataSupport.where("countyName LIKE ?","%"+inputText+"%").find(County.class);
+        if(countyList.size()>0){
+            dataList.clear();
+            for(County county:countyList){
+                String s=county.getCountryName()+','+county.getAdminArea()+','+county.getCid()+','+county.getCountyName();
+                dataList.add(s);
+            }
+            adapter.notifyDataSetChanged();
+            listView.setSelection(0);
+        }
+        else{
+            String address="https://search.heweather.com/find?"+"location="+inputText+"&"+"key="+"efbad2910fda4aa2803856adb0865996";
+            queryFromServer(address);
+        }
     }
     }
