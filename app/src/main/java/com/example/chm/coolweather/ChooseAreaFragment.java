@@ -3,6 +3,7 @@ package com.example.chm.coolweather;
 
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,7 +81,8 @@ public class ChooseAreaFragment extends Fragment {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                   String responseText=response.body().toString();
+                   String responseText=response.body().string();
+                   Log.d("JSON",responseText);
                    boolean  result=false;
                    result= Utility.handleResponse(responseText);
                    if(result){
